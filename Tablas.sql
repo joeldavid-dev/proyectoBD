@@ -1,6 +1,6 @@
 --Cruz Zamora Joel David
---Mejía Alba Israel Hipólito
---Hernández Nájera Sandra Xochiquetzalli
+--Mejï¿½a Alba Israel Hipï¿½lito
+--Hernï¿½ndez Nï¿½jera Sandra Xochiquetzalli
 
 
 --Base de datos del proyecto
