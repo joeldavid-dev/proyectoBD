@@ -3,6 +3,31 @@
 pero no ambos).
 */ 
 
+create trigger verificarPaqueteNacional
+on Nacional
+for insert
+as
+	declare @nCodigo varchar(7) = (select Codigo from inserted)
+	declare @coincidencias int = (select count(*) from Internacional where Codigo = @nCodigo)
+	if @coincidencias > 0
+	begin
+		print('Ya existe un paquete internacional con el mismo codigo')
+		rollback transaction
+	end
+
+create trigger verificarPaqueteInternacional
+on Internacional
+for insert
+as
+	declare @nCodigo varchar(7) = (select Codigo from inserted)
+	declare @coincidencias int = (select count(*) from Nacional where Codigo = @nCodigo)
+	if @coincidencias > 0
+	begin
+		print('Ya existe un paquete nacional con el mismo codigo')
+		rollback transaction
+	end
+
+
 /*
 Crear otro Disparador para la tabla(entidad)
 - Camión
@@ -17,4 +42,5 @@ Crear otro disparador para
 Que al ingresar un nuevo envió, ingrese en otra tabla el id del envió y la ciudad de destino
 y además muestre cuantos envíos se han hecho a dicha ciudad destino(en otras palabras
 que guarde en un campo en número de envíos )
-Se deberá mostrar el correcto funcionamiento de los disparadores.*/
+Se deberá mostrar el correcto funcionamiento de los disparadores.
+*/
