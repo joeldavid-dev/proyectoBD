@@ -1,6 +1,6 @@
 --Cruz Zamora Joel David
---Mej�a Alba Israel Hip�lito
---Hern�ndez N�jera Sandra Xochiquetzalli
+--Mejia Alba Israel Hipolito
+--Hernandez Najera Sandra Xochiquetzalli
 
 
 --Base de datos del proyecto
@@ -22,12 +22,6 @@ CREATE TABLE Paquete (
 	Destinatario varchar(100) not null,
 )
 
---Tabla Rutas
-CREATE TABLE Rutas (
-	IdRuta integer primary key,
-	Ruta varchar(100) not null,
-)
-
 ----Tabla Conductor
 CREATE TABLE Conductor (
 	RFC varchar(13) primary key
@@ -36,25 +30,36 @@ CREATE TABLE Conductor (
 	
 	Nombre varchar(20) not null,
 	Direccion varchar(20) not null,
-	IdRuta integer not null,
+)
 
-	FOREIGN KEY (IdRuta) REFERENCES Rutas(IdRuta)
-	ON DELETE NO ACTION ON UPDATE CASCADE
+--Tabla Rutas_conductor
+CREATE TABLE Rutas_conductor (
+	RFC varchar(13) not null,
+	Ruta varchar(100) not null,
+
+	FOREIGN KEY (RFC) REFERENCES Conductor(RFC)
+		ON DELETE CASCADE ON UPDATE CASCADE,
 )
 
 --Tabla Nacional
 CREATE TABLE Nacional (
 	CiudadDestino varchar(50) not null,
 	Codigo varchar(7) primary key,
-	IdRuta int not null,
 	RFC varchar(13) not null,
 
 	FOREIGN KEY (Codigo) REFERENCES Paquete(Codigo)
 		ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (IdRuta) REFERENCES Rutas(IdRuta)
-		ON DELETE NO ACTION ON UPDATE CASCADE,
 	FOREIGN KEY (RFC) REFERENCES Conductor(RFC)
-		ON DELETE CASCADE ON UPDATE NO ACTION, --Quedo sin accion porque marca error
+		ON DELETE CASCADE ON UPDATE CASCADE,
+)
+
+--Tabla Rutas_nacional
+CREATE TABLE Rutas_nacional (
+	Codigo varchar(7) not null,
+	Ruta varchar(100) not null,
+
+	FOREIGN KEY (Codigo) REFERENCES Nacional(Codigo)
+		ON DELETE CASCADE ON UPDATE CASCADE,
 )
 
 ----Tabla C_Local
@@ -90,9 +95,10 @@ CREATE TABLE Camion (
 
 ----Tabla Conductor_Camion
 CREATE TABLE Conductor_Camion ( 
-	Fecha datetime,
+	Fecha date,
 	RFC varchar(13) not null,
 	Placa varchar(20) not null,
+	CONSTRAINT CHK_fecha_camion CHECK (Fecha <= CAST('2020-12-10' AS date)),
 	FOREIGN KEY (RFC) REFERENCES Conductor(RFC)
 		ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (Placa) REFERENCES Camion(Placa)
@@ -101,13 +107,9 @@ CREATE TABLE Conductor_Camion (
 
 
 
---Llenado de datos ----------------------------------------------
 
---Llenar las rutas. Deben ser 4
-insert into Rutas values(1,'Ruta 1')
-insert into Rutas values(2,'Ruta 2')
-insert into Rutas values(3,'Ruta 3')
-insert into Rutas values(4,'Ruta 4')
+
+--Llenado de datos ============================================================
 
 --Llenar los C_locales
 insert into C_Local(CodigoC_Local,Nombre)
@@ -116,9 +118,24 @@ insert into C_Local(CodigoC_Local,Nombre)
 values ('CODIGOLOCAL2','Jose Romero')
 insert into C_Local(CodigoC_Local,Nombre)
 values ('CODIGOLOCAL3','Francisco Rodriguez')
-select * from Rutas
 
---Paquetes internacionales -------------------------------------
+--Llenar tabla Conductor
+insert into Conductor(RFC,Nombre,Direccion)
+values('MELM8305281H0','Juan Diaz', 'Direccion de Juan')
+insert into Conductor(RFC,Nombre,Direccion)
+values('AKGM8305281H0','Daniel Ramos', 'Direccion de Daniel')
+insert into Conductor(RFC,Nombre,Direccion)
+values('LUNM8305281H0','Adrian Perez', 'Direccion de Adrian')
+
+--Llena tabla Camion
+insert into Camion(Placa,CargaMaxima,CiudadResguardo)
+values('YBU-80-66',3800,'CDMX')
+insert into Camion(Placa,CargaMaxima,CiudadResguardo)
+values('AXA-80-66',3800,'Guadalajara')
+insert into Camion(Placa,CargaMaxima,CiudadResguardo)
+values('YAU-80-66',4000,'Tijuana')
+
+--Paquetes internacionales ============================================================
 
 --Paquete 1
 insert into Paquete
@@ -132,40 +149,54 @@ values('ZA_1234','Direccion2',1.3,'Jose Romero')
 insert into Internacional(Codigo,CodigoC_Local,FEntrega,LineaAerea)
 values('ZA_1234','CODIGOLOCAL2','2020-03-22','American Airlines')
 
---Paquetes nacionales
+--Paquetes nacionales ================================================================
 
 --Paquete 3
-insert into Paquete
+insert into Paquete(Codigo, Direccion, Peso, Destinatario)
 values('KF_1234','Direccion3',1.8,'Pedro Sosa')
-insert into Conductor(RFC,Nombre,Direccion,IdRuta)
-values('MELM8305281H0','Juan Diaz', 'Direccion de Juan',1)
-insert into Nacional(Codigo,CiudadDestino,IdRuta,RFC)
-values('KF_1234','Monterrey',1,'MELM8305281H0')
-insert into Camion(Placa,CargaMaxima,CiudadResguardo)
-values('YBU-80-66',3800,'CDMX')
+
+insert into Nacional(Codigo,CiudadDestino,RFC)
+values('KF_1234','Monterrey','MELM8305281H0')
+
+insert into Rutas_nacional(Codigo, Ruta)
+values('KF_1234', 'Ruta 1')
+
 insert into Conductor_Camion(RFC,Placa,Fecha)
 values('MELM8305281H0','YBU-80-66','2020-12-10')
 
+insert into Rutas_conductor(RFC, Ruta)
+values('MELM8305281H0', 'Ruta 1')
+
+
 --Paquete 4
-insert into Paquete
+insert into Paquete(Codigo, Direccion, Peso, Destinatario)
 values('KE_1334','Direccion4',0.9,'Adrian Perez')
-insert into Conductor(RFC,Nombre,Direccion,IdRuta)
-values('LUNM8305281H0','Adrian Perez', 'Direccion de Adrian',3)
-insert into Nacional(Codigo,CiudadDestino,IdRuta,RFC)
-values('KE_1334','Cordoba',3,'LUNM8305281H0')
-insert into Camion(Placa,CargaMaxima,CiudadResguardo)
-values('AXA-80-66',3800,'Guadalajara')
+
+insert into Nacional(Codigo,CiudadDestino,RFC)
+values('KE_1334','Cordoba','LUNM8305281H0')
+
+insert into Rutas_nacional(Codigo, Ruta)
+values('KE_1334', 'Ruta 2')
+
 insert into Conductor_Camion(RFC,Placa,Fecha)
-values('LUNM8305281H0','AXA-80-66','2020-12-15')
+values('LUNM8305281H0','AXA-80-66','2020-12-1')
+
+insert into Rutas_conductor(RFC, Ruta)
+values('LUNM8305281H0', 'Ruta 2')
+
 
 --Paquete 5
-insert into Paquete
+insert into Paquete(Codigo, Direccion, Peso, Destinatario)
 values('DF_1226','Direccion5',2,'Daniel Ramos')
-insert into Conductor(RFC,Nombre,Direccion,IdRuta)
-values('AKGM8305281H0','Daniel Ramos', 'Direccion de Daniel',2)
-insert into Nacional(Codigo,CiudadDestino,IdRuta,RFC)
-values('DF_1226','CDMX',2,'AKGM8305281H0')
-insert into Camion(Placa,CargaMaxima,CiudadResguardo)
-values('YAU-80-66',4000,'Tijuana')
+
+insert into Nacional(Codigo,CiudadDestino,RFC)
+values('DF_1226','CDMX','AKGM8305281H0')
+
+insert into Rutas_nacional(Codigo, Ruta)
+values('DF_1226', 'Ruta 3')
+
 insert into Conductor_Camion(RFC,Placa,Fecha)
-values('AKGM8305281H0','YAU-80-66','2020-12-2') 
+values('AKGM8305281H0','YAU-80-66','2020-11-2') 
+
+insert into Rutas_conductor(RFC, Ruta)
+values('AKGM8305281H0', 'Ruta 3')
