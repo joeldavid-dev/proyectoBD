@@ -56,15 +56,16 @@ as
 			from Paquete as P
 				 inner join Internacional as I  
 					on ( P.Codigo = I.Codigo )
-				  
+			where I.Codigo = @codigo
 		end
 
 	else
 		print'Codigo ' + @codigo + ' no es valido';
 
 
+
 --Probando el procedimiento
-EXEC SP_Datos_Paquete_Envio 'DF_1226'
+EXEC SP_Datos_Paquete_Envio 'ZA_1234'
 --'DF_1226' --Nacional --Repetido
 --'FF_1234' --Nacional 
 --'ZA_1234' --Internacional
