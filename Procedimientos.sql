@@ -52,10 +52,11 @@ as
 								ON ( P.Codigo = I.Codigo ) ) 
 		)begin
 			print'El envio es INTERnacional';
-			select * 
+			select P.Direccion, I.LineaAerea, I.CodigoC_Local 
 			from Paquete as P
 				 inner join Internacional as I  
 					on ( P.Codigo = I.Codigo )
+				  
 		end
 
 	else
