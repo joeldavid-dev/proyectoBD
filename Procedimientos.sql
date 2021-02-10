@@ -70,8 +70,7 @@ EXEC SP_Datos_Paquete_Envio 'DF_1226' --Nacional
 --'DF_1226' --Nacional  
 --'KF_1234' --Nacional 
 --'ZA_1234' --Internacional 
-
---where N.CiudadDestino is not null ) )
+ 
 
  
 GO

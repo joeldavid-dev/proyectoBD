@@ -70,7 +70,7 @@ insert into Camion(Placa, CargaMaxima, CiudadResguardo)
 values ('YBA-80-66', 249, 'Guadalajara')
 --Tratando insertar un camion con carga maxima mayor a 1250
 insert into Camion(Placa, CargaMaxima, CiudadResguardo)
-values ('YBA-80-66', 1300, 'Guadalajara')
+values ('YBA-80-67', 1100, 'Guadalajara')
 
 
 
@@ -108,8 +108,7 @@ as
 
 	print('Se registro el Envio Nacional')
 	end
-
-select * from Nacional
+	 
 
 
 --Probando el trigger
