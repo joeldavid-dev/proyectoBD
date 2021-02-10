@@ -140,11 +140,11 @@ values('LUNM8305281H0','Adrian Perez', 'Direccion de Adrian')
 
 --Llena tabla Camion
 insert into Camion(Placa,CargaMaxima,CiudadResguardo)
-values('YBU-80-66',3800,'CDMX')
+values('YBU-80-66',1200,'CDMX')
 insert into Camion(Placa,CargaMaxima,CiudadResguardo)
-values('AXA-80-66',3800,'Guadalajara')
+values('AXA-80-66',860,'Guadalajara')
 insert into Camion(Placa,CargaMaxima,CiudadResguardo)
-values('YAU-80-66',4000,'Tijuana')
+values('YAU-80-66',1000,'Tijuana')
 
 --Paquetes internacionales ============================================================
 
