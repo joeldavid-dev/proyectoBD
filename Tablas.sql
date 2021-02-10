@@ -62,6 +62,17 @@ CREATE TABLE Rutas_nacional (
 		ON DELETE CASCADE ON UPDATE CASCADE,
 )
 
+--Tabla necesaria para el Trigger "T_EnviosNacionales"
+CREATE TABLE EnviosNacionales (
+	IdEnvio varchar(7) primary key,
+	CiudadDestino varchar(50),
+	EnviosTotalesCiudad INT,
+
+	FOREIGN KEY (IdEnvio) REFERENCES Nacional(Codigo)
+		ON DELETE CASCADE ON UPDATE CASCADE,
+)
+
+
 ----Tabla C_Local
 CREATE TABLE C_Local ( 
 	Nombre varchar(100) not null,
@@ -148,6 +159,12 @@ insert into Paquete
 values('ZA_1234','Direccion2',1.3,'Jose Romero')
 insert into Internacional(Codigo,CodigoC_Local,FEntrega,LineaAerea)
 values('ZA_1234','CODIGOLOCAL2','2020-03-22','American Airlines')
+
+/*--Paquete 2.3 --PRUEBA Para ver que si renstringe que un codigo no sea nacional e internacional
+insert into Paquete
+values('KF_1234','Direccion2',1.3,'Jose Romero')
+insert into Internacional(Codigo,CodigoC_Local,FEntrega,LineaAerea)
+values('KF_1234','CODIGOLOCAL2','2020-03-22','American Airlines') */
 
 --Paquetes nacionales ================================================================
 
