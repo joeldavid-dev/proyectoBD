@@ -20,9 +20,8 @@ Este procedimiento deberá mostrar lo siguiente ;
 	iii.Y el código de la compañía local.      */
 
 go --	Creacion del procedimiento Almacenado
---create
-alter 
-procedure SP_Datos_Paquete_Envio @codigo varchar(7)
+
+create procedure SP_Datos_Paquete_Envio @codigo varchar(7)
 as
 	if ( @codigo in (select  N.Codigo --Si es nacional
 					FROM Paquete as P
