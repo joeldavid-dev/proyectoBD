@@ -34,12 +34,13 @@ end
 
 --Prueba para intentar meter un envio en nacional, pero su codigo ya esta en internacional
 insert into Nacional(Codigo,CiudadDestino,RFC)
-values('DF_1226','CDMX','AKGM8305281H0')
+values('ZA_1234','CDMX','AKGM8305281H0')
 --Prueba para intentar meter un envio en internacional, pero su codigo ya esta en nacional
 insert into Internacional(Codigo,CodigoC_Local,FEntrega,LineaAerea)
 values('DF_1226','CODIGOLOCAL2','2020-03-22','American Airlines')
 
-
+select * from Nacional
+select *from EnviosNacionales
 /*
 
 
@@ -73,8 +74,8 @@ insert into Camion(Placa, CargaMaxima, CiudadResguardo)
 values ('YBA-80-67', 1100, 'Guadalajara')
 
 
-
-
+Select * from Nacional
+Select * from EnviosNacionales
 
 
 /*
@@ -108,8 +109,14 @@ as
 
 	print('Se registro el Envio Nacional')
 	end
+<<<<<<< HEAD
 	 
 
+=======
+
+select * from Nacional
+select * from Paquete
+>>>>>>> e9315e3f1797c87de9a27e360d65895a59feb96f
 
 --Probando el trigger
 --Paquete 6 --Para corroborar el funcionamiento del trigger
